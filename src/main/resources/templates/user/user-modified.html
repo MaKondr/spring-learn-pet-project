@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Update</title>
+</head>
+<body>
+<div th:object="${user}">
+
+    <h1 th:text="'Update ' + *{username}">Update user</h1>
+    <div class="block-list">
+<!--        <a href="/user/{id}"></a>-->
+        <form th:action="@{/user/{id}(id=${id})}" th:method="patch">
+            <div class="block">
+                <label for="username"> username
+                    <input type="text" name="username" id="username" th:field="*{username}">
+                    <div style="color: red" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username
+                        error
+                    </div>
+                </label>
+            </div>
+            <br/>
+            <div class="block">
+                <label for="password"> password
+                    <input type="password" name="password" id="password" th:field="*{password}">
+                    <div style="color: red" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password
+                        error
+                    </div>
+                </label>
+            </div>
+            <br/>
+            <div class="block">
+                <label for="email"> email
+                    <input type="email" name="email" id="email" th:field="*{email}">
+                    <div style="color: red" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Email
+                        error
+                    </div>
+                </label>
+            </div>
+            <br/>
+            <button style="color: green" type="submit">Update!</button>
+        </form>
+    </div>
+</div>
+<div>
+    <a style="color: blue" href="/user">back</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+<h1>Your profile</h1>
+<div th:object="${profile}">
+    <div>
+        <table>
+            <thead>
+            <tr>
+                <th>Имя</th>
+                <th>Фамилия</th>
+                <th>Телефон</th>
+                <th>Адрес</th>
+                <th>Дата рождения</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td th:text="*{firstName}">none</td>
+                <td th:text="*{lastName}">none</td>
+                <td th:text="*{phone}">none</td>
+                <td th:text="*{address}">none</td>
+                <td th:text="*{dateOfBirth}">none</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <a th:href="@{/profile/update/{id}(id=*{id})}">modify</a>
+        <a th:unless="${profile.account}" th:href="@{/profile/add-account(id=${profile.id})}" th:method="post">create account</a>
+        <a th:if="${profile.account}" th:href="@{/account/{id}(id=${profile.account.id})}" th:method="get">show account</a>
+        <a href="/">back</a>
+    </div>
+</div>
+</body>
+</html>
