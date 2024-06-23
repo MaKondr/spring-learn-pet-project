@@ -21,7 +21,7 @@ public class Investment {
 //    @ColumnDefault("nextval('investments_id_seq'::regclass)")
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Size(max = 50)
     @NotNull
@@ -40,9 +40,9 @@ public class Investment {
     private BigDecimal currentValue;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JoinColumn(name = "account_id")
+    private Account account;
 
 }

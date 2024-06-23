@@ -1,7 +1,7 @@
 package com.example.finance_web_demo.config;
 
 import com.example.finance_web_demo.repository.UserRepository;
-import com.example.finance_web_demo.services.UserDetailServiceImpl;
+import com.example.finance_web_demo.security.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -46,14 +46,14 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/auth/registration", "/auth/login").permitAll()
-//                        .anyRequest().authenticated()
+                        .requestMatchers("/registration", "/login", "/error**").permitAll()
                         .requestMatchers("/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/api/**").authenticated()
                         .requestMatchers("/**").authenticated()
+                        .anyRequest().authenticated()
                 )
                 .formLogin((formLogin) ->{
-                    formLogin.loginPage("/auth/login");
+                    formLogin.loginPage("/login");
                     formLogin.loginProcessingUrl("/process_login");
                     formLogin.usernameParameter("username");
                     formLogin.passwordParameter("password");

@@ -31,13 +31,13 @@ public class MyProfileController {
     @GetMapping("/{id}")
     public String profile(@PathVariable long id, Model model) {
         model.addAttribute("profile", userProfileService.findById(id));
-        return "/profile/profile";
+        return "profile/profile";
     }
 
     @GetMapping("update/{id}")
     public String updateProfile(@PathVariable long id, Model model) {
         model.addAttribute("profile", userProfileService.findById(id));
-        return "/profile/profile-modified";
+        return "profile/profile-modified";
     }
 
     @PatchMapping("/{id}")
@@ -45,18 +45,17 @@ public class MyProfileController {
                                 @ModelAttribute("profile") @Valid UserProfile userProfile,
                                 BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
-            return "/profile/profile-modified";
+            return "profile/profile-modified";
         }
-
         userProfileService.update(id, userProfile);
-
-        return "/profile/profile";
+        System.out.println(userProfileService.findById(id).getAccount());
+        return "redirect:/profile/"+id;
     }
 
     @GetMapping()
     public String listProfile(Model model) {
         model.addAttribute("profiles", userProfileService.findAll());
-        return "/profile/profiles";
+        return "profile/profiles";
     }
 
     @GetMapping("/add-account")

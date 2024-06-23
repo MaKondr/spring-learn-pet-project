@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Notifications</title>
+</head>
+<body>
+<div th:object="${notifications}">
+    <h1>Notifications</h1>
+    <div th:each="notification : ${notifications}">
+        <ol>
+            <li>
+                <a th:text="|${notification.createdAt}  ${notification.message}|"></a>
+                <a th:unless="${notification.read}"
+                   th:href="@{/profile/notifications(id=${notification.profile.id})}">прочитать</a>
+                <a th:href="@{/profile/notifications(id=${notification.profile.id})}"> delete</a>
+            </li>
+        </ol>
+    </div>
+    <hr/>
+    <input onclick="history.back()" type="submit" style="color: green" value="cancel"/>
+</div>
+</body>
+</html>

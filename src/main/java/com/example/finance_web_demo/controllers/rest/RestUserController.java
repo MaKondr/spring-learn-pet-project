@@ -21,7 +21,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestController
+//@RestController
 @RequestMapping("api/user")
 public class RestUserController {
 

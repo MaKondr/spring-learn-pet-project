@@ -17,10 +17,9 @@ import java.time.LocalDate;
 @Table(name = "reports")
 public class Report {
     @Id
-//    @ColumnDefault("nextval('reports_id_seq'::regclass)")
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @NotNull
     @Column(name = "start_date", nullable = false)
@@ -39,9 +38,9 @@ public class Report {
     private String content;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JoinColumn(name = "profile_id", nullable = false)
+    private UserProfile profile;
 
 }

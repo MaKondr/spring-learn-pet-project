@@ -3,6 +3,7 @@ package com.example.finance_web_demo.controllers;
 
 import com.example.finance_web_demo.models.Role;
 import com.example.finance_web_demo.models.User;
+import com.example.finance_web_demo.services.RoleService;
 import com.example.finance_web_demo.services.UserService;
 import com.example.finance_web_demo.util.user.*;
 import jakarta.validation.Valid;
@@ -17,7 +18,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/user")
@@ -25,17 +28,19 @@ public class UserController {
 
     private final UserValidator userValidator;
     private final UserService userService;
+    private final RoleService roleService;
 
     @Autowired
-    public UserController(UserValidator userValidator, UserService userService) {
+    public UserController(UserValidator userValidator, UserService userService, RoleService roleService) {
         this.userValidator = userValidator;
         this.userService = userService;
+        this.roleService = roleService;
     }
 
     @GetMapping()
     public String listUsers(Model model) {
         model.addAttribute("users", userService.findAllUsers());
-        model.addAttribute("role", new Role());
+//        model.addAttribute("role", new Role());
         return "user/users";
     }
 
@@ -64,9 +69,10 @@ public class UserController {
     }
 
     @GetMapping("/update/{id}")
-    public String updateUser(Model model
-            , @PathVariable long id) {
-        model.addAttribute("user", userService.findUserById(id));
+    public String updateUser(Model model,
+                             @PathVariable long id) {
+        model.addAllAttributes(Map.of("user", userService.findUserById(id), "myRoles", roleService.getAllRoles()));
+        System.out.println(model.asMap());
         return "user/user-modified";
     }
 

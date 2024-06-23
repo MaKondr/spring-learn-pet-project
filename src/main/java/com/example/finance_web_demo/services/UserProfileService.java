@@ -7,10 +7,12 @@ import com.example.finance_web_demo.repository.UserProfileRepository;
 import com.example.finance_web_demo.util.profile.ProfileNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -36,19 +38,39 @@ public class UserProfileService {
     }
 
 
-    public void update(long id,UserProfile userProfile) {
-        Optional<UserProfile> oldProfile = userProfileRepository.findById(id);
-        if (oldProfile.isEmpty()) {
+    public void update(long id, UserProfile updatedUserProfile) {
+        Optional<UserProfile> optionalUserProfile = userProfileRepository.findById(id);
+        if (optionalUserProfile.isEmpty()) {
             throw new ProfileNotFoundException();
         }
-        userProfile.setId(id);
-        userProfileRepository.save(userProfile);
+        UserProfile updatableUserProfile = optionalUserProfile.get();
+        update(updatedUserProfile, updatableUserProfile);
+        userProfileRepository.save(updatableUserProfile);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void createAccount(UserProfile userProfile) {
         Account account = new Account();
         account.setUserProfile(userProfile);
         accountRepository.save(account);
         userProfile.setAccount(account);
+    }
+
+    private void update(UserProfile updatedUserProfile, UserProfile updatableUserProfile) {
+        if (!Objects.equals(updatableUserProfile.getFirstName(), updatedUserProfile.getFirstName()))
+            updatableUserProfile.setFirstName(updatedUserProfile.getFirstName());
+        if (!Objects.equals(updatableUserProfile.getLastName(), updatedUserProfile.getLastName()))
+            updatableUserProfile.setLastName(updatedUserProfile.getLastName());
+        if (!Objects.equals(updatableUserProfile.getAddress(), updatedUserProfile.getAddress()))
+            updatableUserProfile.setAddress(updatedUserProfile.getAddress());
+        if (!Objects.equals(updatableUserProfile.getDateOfBirth(), updatedUserProfile.getDateOfBirth()))
+            updatableUserProfile.setDateOfBirth(updatedUserProfile.getDateOfBirth());
+        if (!Objects.equals(updatableUserProfile.getPhone(), updatedUserProfile.getPhone()))
+            updatableUserProfile.setPhone(updatedUserProfile.getPhone());
+
+    }
+
+    public void checkAccountExists(UserProfile userProfile) {
+        System.out.println(userProfile.getAccount());
     }
 }

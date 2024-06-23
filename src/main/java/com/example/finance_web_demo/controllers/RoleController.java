@@ -54,7 +54,7 @@ public class RoleController {
     @GetMapping("update/{id}")
     public String updateRole(@PathVariable long id, Model model) {
         model.addAttribute("role",roleService.getRoleById(id));
-        return "/role/role-modified";
+        return "role/role-modified";
     }
 
     @PatchMapping("update/{id}")

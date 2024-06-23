@@ -11,6 +11,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 import java.util.Random;
 
 @Getter
@@ -22,7 +23,7 @@ public class Account {
 //    @ColumnDefault("nextval('accounts_id_seq'::regclass)")
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Size(max = 20)
     @NotNull
@@ -43,7 +44,18 @@ public class Account {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt = Instant.now();
 
-    @OneToOne(mappedBy = "account", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToOne(mappedBy = "account")
     private UserProfile userProfile;
+
+    @OneToMany(mappedBy = "account")
+    private List<Contribution> contribution;
+
+    @OneToMany(mappedBy = "account")
+    private List<CreditCard> creditCard;
+
+    @OneToMany(mappedBy = "account")
+    private List<DebitCard> debitCard;
+
+
 
 }

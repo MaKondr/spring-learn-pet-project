@@ -1,8 +1,7 @@
-package com.example.finance_web_demo.services;
+package com.example.finance_web_demo.security;
 
 import com.example.finance_web_demo.models.User;
 import com.example.finance_web_demo.repository.UserRepository;
-import com.example.finance_web_demo.security.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,12 +22,10 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        System.out.println(username);
         Optional<User> user = userRepository.findFirstByUsername(username);
         if (user.isEmpty()) {
             throw new UsernameNotFoundException("User not found");
         }
-//        user.get().getPassword()
         return new UserDetailsImpl(user.get());
     }
 }

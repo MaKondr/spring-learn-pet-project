@@ -6,9 +6,11 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
@@ -38,12 +40,17 @@ public class UserProfile {
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
     @JoinColumn(name = "account_id")
-    @OnDelete(action = OnDeleteAction.CASCADE)
     private Account account;
 
     @OneToOne(mappedBy = "userProfile")
     private User user;
+
+    @OneToMany(cascade=CascadeType.REMOVE,mappedBy = "profile")
+    private List<Report> report;
+
+    @OneToMany(cascade=CascadeType.REMOVE,mappedBy = "profile")
+    private List<Notification> notification;
 
 }

@@ -17,10 +17,9 @@ import java.time.LocalDate;
 @Table(name = "credit_cards")
 public class CreditCard {
     @Id
-//    @ColumnDefault("nextval('credit_cards_id_seq'::regclass)")
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Size(max = 16)
     @NotNull
@@ -41,10 +40,9 @@ public class CreditCard {
     @Column(name = "name_on_card", nullable = false, length = 100)
     private String nameOnCard;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JoinColumn(name = "account_id")
+    private Account account;
 
 }

@@ -16,10 +16,9 @@ public class TransactionCategory {
 //    @ColumnDefault("nextval('transaction_categories_id_seq'::regclass)")
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Size(max = 50)
-    @NotNull
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 

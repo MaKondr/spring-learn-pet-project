@@ -16,10 +16,9 @@ import java.time.Instant;
 @Table(name = "notifications")
 public class Notification {
     @Id
-//    @ColumnDefault("nextval('notifications_id_seq'::regclass)")
     @Column(name = "id", nullable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @NotNull
     @Column(name = "message", nullable = false, length = Integer.MAX_VALUE)
@@ -36,9 +35,9 @@ public class Notification {
     private Boolean read = false;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "user_id", nullable = false)
-    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @OnDelete(action = OnDeleteAction.SET_NULL)
+    @JoinColumn(name = "profile_id", nullable = false)
+    private UserProfile profile;
 
 }

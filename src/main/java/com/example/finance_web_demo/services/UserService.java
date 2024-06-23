@@ -82,19 +82,12 @@ public class UserService {
         return userRepository.findFirstByUsername(username);
     }
 
-//    public User findUserByEmail(String email) {
-//        return userRepository.findFirstByEmail(email).orElseThrow(UserNotFoundException::new);
-//    }
 
     @Transactional(readOnly = true)
     public Optional<User> findUserByEmailCheck(String email) {
         return userRepository.findFirstByEmail(email);
     }
 
-//    private boolean hasFindUser(User user) {
-//        return userRepository.findFirstByUsername(user.getUsername()).isPresent()
-//                || userRepository.findFirstByEmail(user.getEmail()).isPresent();
-//    }
 
     private boolean hasFindUserByUsername(String username) {
         return userRepository.findFirstByUsername(username).isPresent();
@@ -134,13 +127,5 @@ public class UserService {
     private void encryptPassword(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
-
-//    private boolean hasProfile(User user) {
-//        return Optional.ofNullable(user.getUserProfile()).isPresent();
-//    }
-
-//    private boolean hasRole(User user) {
-//        return Optional.ofNullable(user.getRoles()).isPresent();
-//    }
 
 }

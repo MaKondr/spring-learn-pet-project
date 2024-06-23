@@ -38,6 +38,25 @@
                 </label>
             </div>
             <br/>
+            <hr/>
+<!--            <div  class="block">-->
+<!--                <ul>-->
+<!--                    <li th:each="role:${myRoles}">-->
+<!--                        <input type="checkbox" th:field="${user.roles}" th:value="${role}">-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <label for="role" th:each="user_role:${user.roles}" >-->
+<!--                    <a th:text="${role.name}"></a>-->
+<!--                    <input id="role" name="role"-->
+<!--                           th:checked="${user_role.name} eq ${role.name} ? true : false"-->
+<!--                           type="checkbox">-->
+<!--                    <div th:each="user_role:${user.roles}" style="color: red" th:if="${#fields.hasErrors('roles')}" th:errors="${role}">Role-->
+<!--                        error-->
+<!--                    </div>-->
+<!--                </label>-->
+<!--            </div>-->
+<!--            <br/>-->
+
             <button style="color: green" type="submit">Update!</button>
         </form>
     </div>
