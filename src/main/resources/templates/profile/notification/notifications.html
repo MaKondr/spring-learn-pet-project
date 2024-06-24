@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
 <head>
     <meta charset="UTF-8">
     <title>Notifications</title>
@@ -13,7 +15,7 @@
                 <a th:text="|${notification.createdAt}  ${notification.message}|"></a>
                 <a th:unless="${notification.read}"
                    th:href="@{/profile/notifications(id=${notification.profile.id})}">прочитать</a>
-                <a th:href="@{/profile/notifications(id=${notification.profile.id})}"> delete</a>
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{/profile/notifications(id=${notification.profile.id})}"> delete</a>
             </li>
         </ol>
     </div>

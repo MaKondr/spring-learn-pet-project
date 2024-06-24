@@ -8,7 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/account")
+@RequestMapping("/profile/account")
 public class AccountController {
     private final AccountService accountService;
 
@@ -16,23 +16,16 @@ public class AccountController {
         this.accountService = accountService;
     }
 
-    //    @GetMapping("/create")
-//    public String createAccount(Model model){
-//        model.addAttribute("account", new Account());
-//        return "account/profile";
+//    @GetMapping("/create")
+//    public String createAccount() {
+//        return "redirect:/profile/account";
+//
 //    }
-    @GetMapping("/create")
-    public String createAccount() {
-//        accountService.createAccount();
-        System.out.println("ACCESS");
-        return "redirect:/account/";
 
-    }
-
-    @GetMapping("/{id}")
-    public String account(@PathVariable Long id, Model model) {
+    @GetMapping()
+    public String account(@RequestParam("id") Long id, Model model) {
         model.addAttribute("account", accountService.getAccountById(id));
 
-        return "account/account";
+        return "profile/account/account";
     }
 }

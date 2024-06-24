@@ -47,13 +47,13 @@ public class Account {
     @OneToOne(mappedBy = "account")
     private UserProfile userProfile;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(cascade=CascadeType.REMOVE, mappedBy = "account")
     private List<Contribution> contribution;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(cascade=CascadeType.REMOVE, mappedBy = "account")
     private List<CreditCard> creditCard;
 
-    @OneToMany(mappedBy = "account")
+    @OneToMany(cascade=CascadeType.REMOVE, mappedBy = "account")
     private List<DebitCard> debitCard;
 
 

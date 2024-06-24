@@ -17,10 +17,9 @@ import java.time.LocalDate;
 public class DebitCard {
 
         @Id
-//    @ColumnDefault("nextval('credit_cards_id_seq'::regclass)")
         @Column(name = "id", nullable = false)
         @GeneratedValue(strategy = GenerationType.IDENTITY)
-        private Integer id;
+        private Long id;
 
         @Size(max = 16)
         @NotNull

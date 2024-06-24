@@ -22,6 +22,7 @@
                 <th>Email</th>
                 <th>Roles</th>
                 <th>Actions</th>
+                <th>Profile</th>
 
             </tr>
             </thead>
@@ -31,7 +32,10 @@
             <td th:text="*{id}"></td>
             <td th:text="*{username}"></td>
             <td th:text="*{email}"></td>
-            <td th:each="role : *{roles}" th:text="${role.name}"></td>
+            <td >
+                <div th:each="role : *{roles}">
+                    <a  th:text="|${role.name} |"></a>
+                </div></td>
             <td>
                 <a th:href="@{user/{id}(id=*{id})}">View</a>
                 <a sec:authorize="hasRole('ADMIN')" th:href="@{user/update/{id}(id=*{id})}">Edit</a>

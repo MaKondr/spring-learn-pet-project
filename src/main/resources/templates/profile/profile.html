@@ -35,7 +35,7 @@
                 <td th:text="*{address}">none</td>
                 <td th:text="*{dateOfBirth}">none</td>
                 <td>
-                    <a th:if="*{account}" th:href="@{/account/{id}(id=*{account.id})}"
+                    <a th:if="*{account}" th:href="@{/profile/account(id=*{account.id})}"
                        th:text="*{account.accountNumber}"></a>
                     <a th:unless="*{account}">null</a>
                 </td>
@@ -48,9 +48,9 @@
     <div>
         <a th:href="@{/profile/update/{id}(id=*{id})}">modify</a>
         <a sec:authorize="hasRole('ADMIN')" th:unless="${profile.account}"
-           th:href="@{/profile/add-account(id=${profile.id})}" th:method="post">create
+           th:href="@{/profile/add-account  (id=${profile.id})}" th:method="post">create
             account</a>
-        <a th:if="${profile.account}" th:href="@{/account/{id}(id=${profile.account.id})}" th:method="get">show
+        <a th:if="${profile.account}" th:href="@{/profile/account(id=${profile.account.id})}" th:method="get">show
             account</a>
         <a href="/">back</a>
     </div>
