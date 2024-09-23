@@ -31,6 +31,7 @@ public class AccountService {
     public Account getAccountById(long id) {
         return accountRepository.findById(id).orElseThrow(RuntimeException::new);
     }
+
 //    public void createAccount() {
 //        Account account = new Account();
 //        enrichAccount(account);
