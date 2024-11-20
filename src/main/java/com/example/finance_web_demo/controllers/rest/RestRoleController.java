@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@RestController
+@RestController
 @RequestMapping("/api/role")
 public class RestRoleController {
 
@@ -25,7 +25,7 @@ public class RestRoleController {
         this.roleService = roleService;
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public List<RoleDTO> getRoleById() {
         return roleService.getAllRoles().stream().map(this::convertRoleToRoleDTO)
                 .collect(Collectors.toList());
@@ -36,7 +36,7 @@ public class RestRoleController {
         return convertRoleToRoleDTO(roleService.getRoleById(id));
     }
 
-    @PostMapping("/register")
+    @PostMapping("")
     public ResponseEntity<HttpStatus> addRole(@RequestBody RoleDTO roleDTO) {
 
         try {

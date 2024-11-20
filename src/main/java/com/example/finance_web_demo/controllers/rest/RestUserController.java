@@ -11,8 +11,10 @@ import com.example.finance_web_demo.util.user.UserNotUpdatedException;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +23,8 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@RestController
-@RequestMapping("api/user")
+@RestController
+@RequestMapping("/api/user")
 public class RestUserController {
 
     private final UserService userService;
@@ -34,49 +36,50 @@ public class RestUserController {
         this.modelMapper = modelMapper;
     }
 
-    @GetMapping("/")
+    @GetMapping()
     public List<UserDTO> listUsers() {
         return userService.findAllUsers().stream().map(this::convertUserToUserDTO)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
-    public UserDTO getUserById(@PathVariable(name = "id") Long id) {
-        return convertUserToUserDTO(userService.findUserById(id));
+    public ResponseEntity<UserDTO> getUserById(@PathVariable(name = "id") Long id) {
+        return ResponseEntity.ok(convertUserToUserDTO(userService.findUserById(id)));
     }
 
 
-    @PostMapping("/register")
-    public ResponseEntity<HttpStatus> createUser(@RequestBody @Valid UserDTO userDTO,
-                                                 BindingResult bindingResult) {
+    @PostMapping()
+    public ResponseEntity<UserDTO> createUser(@RequestBody @Valid UserDTO userDTO,
+                                              BindingResult bindingResult) {
         this.hasErrors(bindingResult);
 
         userService.createUser(convertUserDTOToUser(userDTO));
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDTO);
     }
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<HttpStatus> updateUser(@PathVariable Long id,
-                                                 @RequestBody @Valid UserDTO userDTO,
-                                                 BindingResult bindingResult) {
+    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id,
+                                              @RequestBody @Valid UserDTO userDTO,
+                                              BindingResult bindingResult) {
         this.hasErrors(bindingResult);
         userService.updateUser(id, convertUserDTOToUser(userDTO));
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok(userDTO);
 
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteUser(@PathVariable Long id) {
+    @DeleteMapping(value = {"/{id}"})
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable long id) {
+        System.out.println("DELETE METHOD");
         userService.deleteUser(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
     @ExceptionHandler(UserNotFoundException.class)
     private ResponseEntity<UserErrorResponse> handleAllExceptions() {
         UserErrorResponse response = new UserErrorResponse(
                 "User with this id wasn't found",
-                System.currentTimeMillis()
+                HttpStatus.NOT_FOUND
         );
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
@@ -85,9 +88,9 @@ public class RestUserController {
     private ResponseEntity<UserErrorResponse> handleAllExceptions(UserNotCreatedException ex) {
         UserErrorResponse response = new UserErrorResponse(
                 ex.getMessage(),
-                System.currentTimeMillis()
+                HttpStatus.valueOf(409)
         );
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(response, HttpStatus.valueOf(409));
     }
 
     @ExceptionHandler(UserNotUpdatedException.class)
@@ -96,7 +99,7 @@ public class RestUserController {
 
         UserErrorResponse response = new UserErrorResponse(
                 ex.getMessage(),
-                System.currentTimeMillis()
+                HttpStatus.BAD_REQUEST
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -105,7 +108,7 @@ public class RestUserController {
     private ResponseEntity<UserErrorResponse> handleAllExceptions(SQLException ex) {
         UserErrorResponse response = new UserErrorResponse(
                 ex.getMessage(),
-                System.currentTimeMillis()
+                HttpStatus.BAD_REQUEST
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }

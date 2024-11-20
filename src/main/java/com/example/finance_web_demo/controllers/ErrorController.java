@@ -20,6 +20,7 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
         String errorMsg = "";
         int httpErrorCode = getErrorCode(httpRequest);
 
+
         switch (httpErrorCode) {
             case 400: {
                 errorMsg = "Http Error Code: 400. Bad Request";
@@ -33,11 +34,18 @@ public class ErrorController implements org.springframework.boot.web.servlet.err
                 errorMsg = "Http Error Code: 404. Resource not found";
                 break;
             }
+//            case 405: {
+//                errorMsg = "Http Error Code: 405. Method Not Allowed";
+//                break;
+//            }
             case 500: {
                 errorMsg = "Http Error Code: 500. Internal Server Error";
                 break;
             }
+            default:
+                throw new IllegalStateException("Unexpected value: " + httpErrorCode);
         }
+
         errorPage.addObject("errorMsg", errorMsg);
         return errorPage;
     }

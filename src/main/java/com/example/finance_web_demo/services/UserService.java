@@ -54,7 +54,7 @@ public class UserService {
 
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(Long userId) {
         /*User user = */
         userRepository.findById(userId).orElseThrow(UserNotFoundException::new);

@@ -5,6 +5,7 @@ import com.example.finance_web_demo.security.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -46,13 +47,12 @@ public class SecurityConfig {
         return http
                 .csrf().disable()
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/registration", "/login", "/error**").permitAll()
+                        .requestMatchers("/registration", "/login", "/error**", "/api/**").permitAll()
                         .requestMatchers("/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/api/**").authenticated()
-                        .requestMatchers("/**").authenticated()
                         .anyRequest().authenticated()
                 )
-                .formLogin((formLogin) ->{
+
+                .formLogin((formLogin) -> {
                     formLogin.loginPage("/login");
                     formLogin.loginProcessingUrl("/process_login");
                     formLogin.usernameParameter("username");

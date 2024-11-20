@@ -6,7 +6,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.*;
 
 import java.time.LocalDate;
@@ -41,7 +40,8 @@ public class UserProfile {
     private LocalDate dateOfBirth;
 
     @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "account_id")
+    @JoinColumn(name = "account_id", referencedColumnName = "id")
+//    @Column(name = "account_id")
     private Account account;
 
     @OneToOne(mappedBy = "userProfile")

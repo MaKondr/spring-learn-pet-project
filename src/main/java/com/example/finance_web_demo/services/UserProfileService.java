@@ -48,7 +48,7 @@ public class UserProfileService {
         userProfileRepository.save(updatableUserProfile);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public void createAccount(UserProfile userProfile) {
         Account account = new Account();
         account.setUserProfile(userProfile);

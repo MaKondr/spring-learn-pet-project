@@ -1,7 +1,6 @@
 package com.example.finance_web_demo.controllers;
 
 
-import com.example.finance_web_demo.models.Role;
 import com.example.finance_web_demo.models.User;
 import com.example.finance_web_demo.services.RoleService;
 import com.example.finance_web_demo.services.UserService;
@@ -18,7 +17,6 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -97,7 +95,7 @@ public class UserController {
     private ResponseEntity<UserErrorResponse> handleAllExceptions() {
         UserErrorResponse response = new UserErrorResponse(
                 "User with this id wasn't found",
-                System.currentTimeMillis()
+                HttpStatus.NOT_FOUND
         );
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
@@ -106,7 +104,7 @@ public class UserController {
     private ResponseEntity<UserErrorResponse> handleAllExceptions(UserNotCreatedException ex) {
         UserErrorResponse response = new UserErrorResponse(
                 ex.getMessage(),
-                System.currentTimeMillis()
+                HttpStatus.BAD_REQUEST
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -117,7 +115,7 @@ public class UserController {
 
         UserErrorResponse response = new UserErrorResponse(
                 ex.getMessage(),
-                System.currentTimeMillis()
+                HttpStatus.BAD_REQUEST
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
@@ -126,7 +124,7 @@ public class UserController {
     private ResponseEntity<UserErrorResponse> handleAllExceptions(SQLException ex) {
         UserErrorResponse response = new UserErrorResponse(
                 ex.getMessage(),
-                System.currentTimeMillis()
+                HttpStatus.BAD_REQUEST
         );
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }

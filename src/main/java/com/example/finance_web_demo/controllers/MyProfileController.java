@@ -70,7 +70,7 @@ public class MyProfileController {
     private ResponseEntity<UserErrorResponse> handleAllExceptions() {
         UserErrorResponse response = new UserErrorResponse(
                 "Profile with this id wasn't found",
-                System.currentTimeMillis()
+                HttpStatus.NOT_FOUND
         );
         return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
     }
