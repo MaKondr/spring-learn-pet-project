@@ -44,20 +44,4 @@ public class Account {
     @ColumnDefault("CURRENT_TIMESTAMP")
     @Column(name = "created_at", nullable = false)
     private Instant createdAt = Instant.now();
-
-
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name="account_id")
-    private List<Contribution> contribution;
-
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name="account_id")
-    private List<CreditCard> creditCard;
-
-    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-    @JoinColumn(name="account_id")
-    private List<DebitCard> debitCard;
-
-
-
 }

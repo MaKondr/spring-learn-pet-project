@@ -43,12 +43,4 @@ public class UserProfile {
     @JoinColumn(name = "user_profile_id")
     private List<Account> accounts;
 
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "profile_id")
-    private List<Report> report;
-
-    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "profile_id")
-    private List<Notification> notification;
-
 }
