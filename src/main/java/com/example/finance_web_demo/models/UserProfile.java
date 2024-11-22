@@ -39,18 +39,16 @@ public class UserProfile {
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
-    @OneToOne(fetch = FetchType.EAGER, orphanRemoval = true)
-    @JoinColumn(name = "account_id", referencedColumnName = "id")
-//    @Column(name = "account_id")
-    private Account account;
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "user_profile_id")
+    private List<Account> accounts;
 
-    @OneToOne(mappedBy = "userProfile")
-    private User user;
-
-    @OneToMany(cascade=CascadeType.REMOVE,mappedBy = "profile")
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "profile_id")
     private List<Report> report;
 
-    @OneToMany(cascade=CascadeType.REMOVE,mappedBy = "profile")
+    @OneToMany(fetch = FetchType.EAGER, orphanRemoval = true)
+    @JoinColumn(name = "profile_id")
     private List<Notification> notification;
 
 }

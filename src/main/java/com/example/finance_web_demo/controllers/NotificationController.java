@@ -15,9 +15,9 @@ public class NotificationController {
     public NotificationController(NotificationService notificationService) {
         this.notificationService = notificationService;
     }
-    @GetMapping
-    public String listNotifications(@RequestParam("id") long id, Model model) {
-        model.addAttribute("notifications" ,notificationService.findNotificationByProfileId(id));
-        return "profile/notification/notifications";
-    }
+//    @GetMapping
+//    public String listNotifications(@RequestParam("id") long id, Model model) {
+//        model.addAttribute("notifications" ,notificationService.findNotificationByProfileId(id));
+//        return "profile/notification/notifications";
+//    }
 }

@@ -24,8 +24,4 @@ public class Contribution {
 
     private BigDecimal value;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @OnDelete(action = OnDeleteAction.SET_NULL)
-    @JoinColumn(name = "account_id")
-    private Account account;
 }

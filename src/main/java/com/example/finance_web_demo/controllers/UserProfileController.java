@@ -1,16 +1,13 @@
 package com.example.finance_web_demo.controllers;
 
-import com.example.finance_web_demo.models.User;
 import com.example.finance_web_demo.models.UserProfile;
 import com.example.finance_web_demo.services.UserProfileService;
 import com.example.finance_web_demo.util.profile.ProfileNotFoundException;
 import com.example.finance_web_demo.util.user.UserErrorResponse;
-import com.example.finance_web_demo.util.user.UserNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,11 +15,11 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/profile")
-public class MyProfileController {
+public class UserProfileController {
     private final UserProfileService userProfileService;
 
     @Autowired
-    public MyProfileController(UserProfileService userProfileService) {
+    public UserProfileController(UserProfileService userProfileService) {
         this.userProfileService = userProfileService;
     }
 
@@ -48,7 +45,7 @@ public class MyProfileController {
             return "profile/profile-modified";
         }
         userProfileService.update(id, userProfile);
-        System.out.println(userProfileService.findById(id).getAccount());
+        System.out.println(userProfileService.findById(id).getAccounts());
         return "redirect:/profile/"+id;
     }
 

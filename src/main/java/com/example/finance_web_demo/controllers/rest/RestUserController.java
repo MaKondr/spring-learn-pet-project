@@ -1,20 +1,21 @@
 package com.example.finance_web_demo.controllers.rest;
 
 
+import com.example.finance_web_demo.dto.AccountDTO;
+import com.example.finance_web_demo.dto.ProfileDTO;
 import com.example.finance_web_demo.dto.UserDTO;
+import com.example.finance_web_demo.dto.UserInfoDTO;
+import com.example.finance_web_demo.models.Account;
 import com.example.finance_web_demo.models.User;
+import com.example.finance_web_demo.models.UserProfile;
 import com.example.finance_web_demo.services.UserService;
-import com.example.finance_web_demo.util.user.UserErrorResponse;
-import com.example.finance_web_demo.util.user.UserNotCreatedException;
-import com.example.finance_web_demo.util.user.UserNotFoundException;
-import com.example.finance_web_demo.util.user.UserNotUpdatedException;
+import com.example.finance_web_demo.util.user.*;
 import jakarta.validation.Valid;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
@@ -29,17 +30,34 @@ public class RestUserController {
 
     private final UserService userService;
     private final ModelMapper modelMapper;
+    private final UserValidator userValidator;
 
     @Autowired
-    public RestUserController(UserService userService, ModelMapper modelMapper) {
+    public RestUserController(UserService userService, ModelMapper modelMapper, UserValidator userValidator) {
         this.userService = userService;
         this.modelMapper = modelMapper;
+        this.userValidator = userValidator;
     }
 
     @GetMapping()
-    public List<UserDTO> listUsers() {
-        return userService.findAllUsers().stream().map(this::convertUserToUserDTO)
-                .collect(Collectors.toList());
+    @ResponseStatus(HttpStatus.OK)
+    public Object listUsers() {
+        return userService.findAllUsers();
+    }
+    @GetMapping(value = "user-info")
+    @ResponseStatus(HttpStatus.OK)
+    public Object getUserWithProfile(@RequestParam(name = "name") String name) {
+        modelMapper
+                .typeMap(User.class, UserInfoDTO.class)
+                .addMappings(mapper ->
+                        mapper.map(User::getUserProfile, UserInfoDTO::setProfileDTO));
+        modelMapper.typeMap(UserProfile.class, ProfileDTO.class)
+                .addMappings(mapping ->
+                        mapping.map(UserProfile::getAccounts, ProfileDTO::setAccountDTO));
+//        return ResponseEntity.ok(modelMapper.map(userService.findUserWithProfile(name), UserInfoDTO.class));
+//        return ResponseEntity.ok("HEllo");
+//        return modelMapper.map(userService.findUserByUsername(name), UserInfoDTO.class);
+        return userService.findUserWithProfile(name);
     }
 
     @GetMapping("/{id}")

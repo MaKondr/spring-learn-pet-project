@@ -51,9 +51,16 @@ public class UserProfileService {
 //    @PreAuthorize("hasRole('ADMIN')")
     public void createAccount(UserProfile userProfile) {
         Account account = new Account();
-        account.setUserProfile(userProfile);
         accountRepository.save(account);
-        userProfile.setAccount(account);
+        userProfile.getAccounts().add(account);
+    }
+
+    public void deleteAccount(long id) {
+        Optional<Account> optionalAccount = accountRepository.findById(id);
+        if (optionalAccount.isPresent()) {
+            Account account = optionalAccount.get();
+            accountRepository.delete(account);
+        }
     }
 
     private void update(UserProfile updatedUserProfile, UserProfile updatableUserProfile) {
@@ -71,6 +78,6 @@ public class UserProfileService {
     }
 
     public void checkAccountExists(UserProfile userProfile) {
-        System.out.println(userProfile.getAccount());
+        System.out.println(userProfile.getAccounts());
     }
 }

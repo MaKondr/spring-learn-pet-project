@@ -37,10 +37,10 @@ public class Report {
     @Column(name = "content", length = Integer.MAX_VALUE)
     private String content;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.SET_NULL)
-    @JoinColumn(name = "profile_id", nullable = false)
-    private UserProfile profile;
+//    @NotNull
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @OnDelete(action = OnDeleteAction.SET_NULL)
+//    @JoinColumn(name = "profile_id", nullable = false)
+//    private UserProfile profile;
 
 }

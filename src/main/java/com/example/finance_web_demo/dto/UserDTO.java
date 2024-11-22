@@ -23,4 +23,5 @@ public class UserDTO {
     @Email
     @NotEmpty(message = "Email should not be empty")
     public String email;
+
 }

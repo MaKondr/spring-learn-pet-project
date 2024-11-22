@@ -27,9 +27,9 @@ public class ReportService {
         return reportRepository.findReportById(id).orElse(null);
     }
 
-    public List<Report> getReportsByProfileId(long id) {
-        return reportRepository.findReportByProfileId(id);
-    }
+//    public List<Report> getReportsByProfileId(long id) {
+//        return reportRepository.findReportByProfileId(id);
+//    }
     public void saveReport(Report report) {
         reportRepository.save(report);
     }

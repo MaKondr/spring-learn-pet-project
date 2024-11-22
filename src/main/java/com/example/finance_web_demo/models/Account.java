@@ -1,5 +1,6 @@
 package com.example.finance_web_demo.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -44,16 +45,17 @@ public class Account {
     @Column(name = "created_at", nullable = false)
     private Instant createdAt = Instant.now();
 
-    @OneToOne(mappedBy = "account")
-    private UserProfile userProfile;
 
-    @OneToMany(cascade=CascadeType.REMOVE, mappedBy = "account")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name="account_id")
     private List<Contribution> contribution;
 
-    @OneToMany(cascade=CascadeType.REMOVE, mappedBy = "account")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name="account_id")
     private List<CreditCard> creditCard;
 
-    @OneToMany(cascade=CascadeType.REMOVE, mappedBy = "account")
+    @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
+    @JoinColumn(name="account_id")
     private List<DebitCard> debitCard;
 
 

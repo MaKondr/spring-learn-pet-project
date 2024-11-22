@@ -16,10 +16,10 @@ public class ReportController {
         this.reportService = reportService;
     }
 
-    @GetMapping
-    public String listReports(@RequestParam("id") long id, Model model) {
-        model.addAttribute("reports", reportService.getReportsByProfileId(id));
-        return "profile/report/reports";
-
-    }
+//    @GetMapping
+//    public String listReports(@RequestParam("id") long id, Model model) {
+//        model.addAttribute("reports", reportService.getReportsByProfileId(id));
+//        return "profile/report/reports";
+//
+//    }
 }

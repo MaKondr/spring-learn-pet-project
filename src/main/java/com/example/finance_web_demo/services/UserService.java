@@ -8,7 +8,6 @@ import com.example.finance_web_demo.repository.UserRepository;
 import com.example.finance_web_demo.util.user.UserNotCreatedException;
 import com.example.finance_web_demo.util.user.UserNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +42,10 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public User findUserWithProfile(String username) {
+       return userRepository.findUserByUsername(username).orElseThrow(UserNotFoundException::new);
+    }
+
     //TODO Настроить security на смену username при вызове updateUser()
     public void updateUser(Long id, User updatedUser) {
         Optional<User> optionalUser = userRepository.findById(id);
@@ -58,7 +61,7 @@ public class UserService {
     public void deleteUser(Long userId) {
         /*User user = */
         userRepository.findById(userId).orElseThrow(UserNotFoundException::new);
-//        profileRepository.deleteById(user.getUserProfile().getId());
+//        profileRepository.deleteById(user.getProfileDTO().getId());
         userRepository.deleteById(userId);
     }
 
@@ -118,7 +121,6 @@ public class UserService {
 
     private void createProfile(User user) {
         UserProfile userProfile = new UserProfile();
-        userProfile.setUser(user);
         profileRepository.save(userProfile);
         user.setUserProfile(userProfile);
     }

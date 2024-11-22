@@ -23,10 +23,10 @@ public class NotificationService {
     public Notification findNotificationById(long id) {
         return notificationRepository.findById(id).orElse(null);
     }
-    @Transactional(readOnly = true)
-    public List<Notification> findNotificationByProfileId(long id) {
-       return notificationRepository.findByProfileId(id);
-    }
+//    @Transactional(readOnly = true)
+//    public List<Notification> findNotificationByProfileId(long id) {
+//       return notificationRepository.findByProfileId(id);
+//    }
     public void saveNotification(Notification notification) {
         notificationRepository.save(notification);
     }

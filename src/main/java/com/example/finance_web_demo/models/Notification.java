@@ -34,10 +34,10 @@ public class Notification {
     @Column(name = "read", nullable = false)
     private Boolean read = false;
 
-    @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @OnDelete(action = OnDeleteAction.SET_NULL)
-    @JoinColumn(name = "profile_id", nullable = false)
-    private UserProfile profile;
+//    @NotNull
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @OnDelete(action = OnDeleteAction.SET_NULL)
+//    @JoinColumn(name = "profile_id", nullable = false)
+//    private UserProfile profile;
 
 }
